@@ -2,11 +2,22 @@ import React from 'react'
 import './Header.css'
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import {
+    Link
+  } from "react-router-dom";
+import { useStateValue } from './StateProvider';
 
 function Header() {
+
+    const [{basket}] = useStateValue();
+
   return (
     <div className='header'>
+        {/* when want to go to the home page clicking on an image use Link */}
+        <Link to="/">
         <img className='header__logo' src='http://pngimg.com/uploads/amazon/amazon_PNG11.png' alt='amazon-logo'/> 
+        </Link>
+        
         <div className="header__search">
             <input className='header__searchInput' type="text" />
             <SearchIcon className="header__searchIcon"/>
@@ -39,10 +50,12 @@ function Header() {
                     Prime
                 </span>
             </div>
+            <Link to='/checkout'>
             <div className="header__optionBasket">
                 <ShoppingBasketIcon />
-                <span className="header__optionLineTwo header__basketCount">0</span>
+                <span className="header__optionLineTwo header__basketCount">{basket.length}</span>
             </div>
+           </Link>
 
             
         </div>
