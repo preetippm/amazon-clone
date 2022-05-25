@@ -6,10 +6,17 @@ import {
     Link
   } from "react-router-dom";
 import { useStateValue } from './StateProvider';
+import {auth} from "./firebase";
 
 function Header() {
 
-    const [{basket}] = useStateValue();
+    const [{basket, user}, dispatch] = useStateValue();
+
+    const handleAuthentication = () =>{
+        if(auth){
+            auth.signOut();
+        }
+    }
 
   return (
     <div className='header'>
@@ -24,14 +31,16 @@ function Header() {
             {/* logo */}
         </div>
         <div className="header__nav">
-            <div className="header__option">
+            <Link to={!user && '/login'}>
+            <div onClick={handleAuthentication} className="header__option">
                 <span className="header__optionLineOne">
-                    Hello Guest
+                    Hello {!user ? 'Guest':user.email}
                 </span>
                 <span className="header__optionLineTwo">
-                    Sign In
+                    {user ? 'Sign Out' : 'Sign In'}
                 </span>
             </div>
+            </Link>
 
             <div className="header__option">
             <span className="header__optionLineOne">
